@@ -1,12 +1,10 @@
 package main
 
 import (
-"fmt"
-"github.com/gin-gonic/gin"
-"log"
-"net/http"
-"strconv"
-"strings"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
 )
 
 type js_struct struct {
@@ -14,22 +12,7 @@ type js_struct struct {
 	DataForm map[string]string `json:"data"`
 }
 
-func coord(x string) (int64, int64) {
-	a := strings.Split(x, ",")
-	b := strings.Split(a[0], ".")
-	c := strings.Split(a[1], ".")
-	return conversion(b[0]), conversion(c[0])
-}
-func conversion(x string) int64 {
-	out, err := strconv.ParseInt(x[0:], 10, 64)
-	if err != nil {
-		fmt.Println("Err_Conversion  ", err)
-	}
-	if out < 0 {
-		out = 0
-	}
-	return out
-}
+
 
 func initializeRoutes() {
 
@@ -54,8 +37,11 @@ func initializeRoutes() {
 		if err != nil{
 			log.Fatal(err)
 		}
-		fmt.Println(js_form)
-
+		typeCalculate := js_form.Name
+		dataCalculate := js_form.DataForm
+		x, y := selection(typeCalculate, dataCalculate)
+		fmt.Println(x)
+		fmt.Print(y)
 		c.JSON(http.StatusOK, gin.H {
 			"message":"It's working",
 		})
