@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <br>
     <br>
     <form @submit.prevent="jsonSubmit">
@@ -13,9 +13,9 @@
         <br>
         <tr>
           <td>Электрочайник</td>
-          <td><input type="number" v-model="form.kettle_kol" value="0"> Шт.</td>
-          <td><input type="number" v-model="form.kettle_wt" value="360"> Вт</td>
-          <td><input type="number" v-model="form.kettle_hour" val> часов</td>
+          <td><input type="number" v-model="form.kettle_kol"> Шт.</td>
+          <td><input type="number" v-model="form.kettle_wt"> Вт</td>
+          <td><input type="number" v-model="form.kettle_hour"> часов</td>
         </tr>
         <tr>
           <td>Холодильник</td>
@@ -68,15 +68,26 @@
             <input id="mark_coord" type="text" v-model="form.coords" style="display: none;">
           </td>
         </tr>
-        <input type="submit" value="Submit" style="height: 100px; width: 300px"/>
+        <div style="width: 100%; height: 50px"></div>
+        <div class="wrap">
+          <button type="submit" class="button">Submit</button>
+        </div>
       </table>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
     </form>
+    <div style="width: 1500px; height: 50px"></div>
+    <div v-if="response_data['message']==='No Data'" style="width: 1500px; height: 600px">
+      <h2>На данный момент у нас нет информации о инсоляции в этом регионе</h2>
+    </div>
+    <div v-else-if="this.response_data['power_arr'].length > 1">
+      <response v-bind:response_data="response_data"  class="response"/>
+    </div>
+    <div v-else-if="request_flag">
+      <h2>Считаем...</h2>
+      <loader class="loader"/>
+    </div>
+    <div v-else style="width: 1500px; height: 600px; margin-right: auto; margin-left: auto">
+      <h2>Введите данные</h2>
+    </div>
   </div>
 
 </template>
@@ -84,67 +95,83 @@
 <script>
 import form_head from '@/components/Calc_forms/form-head'
 import {loadYmap} from 'vue-yandex-maps'
-import axios from 'axios';
-import VeeValidate from 'vee-validate'
+import Loader from "@/components/Calc_forms/loader";
+import Response from "@/components/Calc_forms/form-response";
 
 export default {
   components: {
+    Loader,
     form_head,
+    Response,
   },
   methods: {
     async jsonSubmit() {
-      this.form.coords = document.getElementById("mark_coord").value
-      let js_form = {
-        name: "dev-calc",
-        data: this.form
+      if (document.getElementById("mark_coord").value.length === 0) {
+        alert("Установите метку на карте")
+      } else {
+        this.request_flag = 1
+        this.response_data = {
+          'power_arr': 0,
+        }
+        this.form.coords = document.getElementById("mark_coord").value
+        let js_form = {
+          name: "dev-calc",
+          data: this.form
+        }
+        await fetch(this.apiURL, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(js_form) // body data type must match "Content-Type" header
+        })
+            .then(response => response.json())
+            .then(data => {
+              this.response_data = data
+              console.log('Success:', data);
+            })
+            .catch((error) => {
+              this.response_data = error
+              console.error('Error:', error);
+            });
       }
-      await fetch(this.apiURL, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(js_form) // body data type must match "Content-Type" header
-      })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
     }
   },
   data() {
     return {
+      request_flag: 0,
+      response_data: {
+        'power_arr': 0,
+      },
       form: {
-        kettle_kol: '0',
+        kettle_kol: '1',
         kettle_wt: '360',
         kettle_hour: '1',
-        fridge_kol: '0',
+        fridge_kol: '1',
         fridge_wt: '150',
         fridge_hour: '6',
-        led_kol: '0',
+        led_kol: '5',
         led_wt: '8',
         led_hour: '12',
         cooker_kol: '0',
         cooker_wt: '500',
         cooker_hour: '2',
-        heater_kol: '0',
+        heater_kol: '1',
         heater_wt: '1000',
         heater_hour: '5',
-        washing_kol: '0',
+        washing_kol: '1',
         washing_wt: '500',
         washing_hour: '8',
-        tv_kol: '0',
+        tv_kol: '1',
         tv_wt: '300',
         tv_hour: '5',
-        laptop_kol: '0',
+        laptop_kol: '1',
         laptop_wt: '60',
         laptop_hour: '10',
         coords: "",
@@ -227,6 +254,111 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+
+form {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.response{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main {
+  background-color: #ffffff;
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  min-width: 300px;
+  min-height: 60px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+  color: #313133;
+  background: #4FD1C5;
+  background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  border: none;
+  border-radius: 1000px;
+  box-shadow: 12px 12px 24px rgba(79,209,197,.64);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  padding: 10px;
+}
+
+button::before {
+  content: '';
+  border-radius: 1000px;
+  min-width: calc(300px + 12px);
+  min-height: calc(60px + 12px);
+  border: 6px solid #00FFCB;
+  box-shadow: 0 0 60px rgba(0,255,203,.64);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all .3s ease-in-out 0s;
+}
+
+.button:hover, .button:focus {
+  color: #313133;
+  transform: translateY(-6px);
+}
+
+button:hover::before, button:focus::before {
+  opacity: 1;
+}
+
+button::after {
+  content: '';
+  width: 30px; height: 30px;
+  border-radius: 100%;
+  border: 6px solid #00FFCB;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
+button:hover::after, button:focus::after {
+  animation: none;
+  display: none;
+}
+
+@keyframes ring {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+.loader {
+  height: 400px;
+  margin-top: 200px;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td {

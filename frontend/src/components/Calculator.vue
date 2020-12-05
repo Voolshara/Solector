@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="topnav">
-      <a href=# class="selected">ПО ЭНЕРГОПОТРЕБЛЕНИЮ</a>
-      <a href=#>ПО ЭЛЕКТРОПРИБОРАМ</a>
+      <a href=# class="selected">ПО ЭЛЕКТРОПРИБОРАМ</a>
+      <a href=# >ПО ЭНЕРГОПОТРЕБЛЕНИЮ</a>
       <a id="menu" href="#" class="icon">&#9776;</a>
     </div>
   <Form/>
