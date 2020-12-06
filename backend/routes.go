@@ -12,23 +12,7 @@ type jsStruct struct {
 }
 
 func initializeRoutes() {
-
-	router.GET("/", func(c *gin.Context) {
-
-		// Call the HTML method of the Context to render a template
-		c.HTML(
-			// Set the HTTP status to 200 (OK)
-			http.StatusOK,
-			// Use the index.html template
-			"INdevices.html",
-			// Pass the data that the page uses (in this case, 'title')
-			gin.H{
-				"title": "Home Page",
-			},
-		)
-
-	})
-	router.POST("/calcout", func(c *gin.Context) {
+	router.POST("/", func(c *gin.Context) {
 		var js_form jsStruct
 		err := c.BindJSON(&js_form)
 		if err != nil {
@@ -60,7 +44,7 @@ func initializeRoutes() {
 		}
 	})
 
-	router.GET("/calcout", func(c *gin.Context) {
+	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "WHAT you doing?",
 		})

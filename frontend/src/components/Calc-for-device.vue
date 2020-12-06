@@ -70,7 +70,7 @@
         </tr>
         <div style="width: 100%; height: 50px"></div>
         <div class="wrap">
-          <button type="submit" class="button">Submit</button>
+          <button type="submit" class="button">Подобрать</button>
         </div>
       </table>
     </form>
@@ -88,6 +88,8 @@
     <div v-else style="width: 1500px; height: 600px; margin-right: auto; margin-left: auto">
       <h2>Введите данные</h2>
     </div>
+    <div style="width: 1500px; height: 80px;"></div>
+    <Footer/>
   </div>
 
 </template>
@@ -97,12 +99,14 @@ import form_head from '@/components/Calc_forms/form-head'
 import {loadYmap} from 'vue-yandex-maps'
 import Loader from "@/components/Calc_forms/loader";
 import Response from "@/components/Calc_forms/form-response";
+import Footer from "@/components/footer"
 
 export default {
   components: {
     Loader,
     form_head,
     Response,
+    Footer
   },
   methods: {
     async jsonSubmit() {
@@ -176,7 +180,7 @@ export default {
         laptop_hour: '10',
         coords: "",
       },
-      "apiURL": "http://localhost:4325/calcout",
+      "apiURL": "https://engine.solector.ru",
       "form_head": [
         "Электроприбор",
         "Количество",
