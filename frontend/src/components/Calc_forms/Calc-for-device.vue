@@ -89,7 +89,6 @@
       <h2>Введите данные</h2>
     </div>
     <div style="width: 1500px; height: 80px;"></div>
-    <Footer/>
   </div>
 
 </template>
@@ -99,14 +98,13 @@ import form_head from '@/components/Calc_forms/form-head'
 import {loadYmap} from 'vue-yandex-maps'
 import Loader from "@/components/Calc_forms/loader";
 import Response from "@/components/Calc_forms/form-response";
-import Footer from "@/components/footer"
+
 
 export default {
   components: {
     Loader,
     form_head,
     Response,
-    Footer
   },
   methods: {
     async jsonSubmit() {

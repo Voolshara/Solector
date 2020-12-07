@@ -1,8 +1,10 @@
 <template>
   <div>
+    <div style="width: available; height: 50px"></div>
     <h2>MarketPlace</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet consequuntur corporis fuga, inventore laboriosam laborum, minima nihil, quis repellendus sed sit temporibus voluptate! Delectus deserunt ipsum rem veritatis voluptatibus.</p>
-    <a href="/selection">Selection</a>
+    <h2>Скоро он появится (уже в разработке)</h2>
+    <div style="width: available; height: 30px"></div>
+   <div style="width: available; height: 1200px"></div>
   </div>
 </template>
 

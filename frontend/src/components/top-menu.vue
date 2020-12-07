@@ -1,33 +1,26 @@
 <template>
-  <div id="app" style="width: available">
-    <div>
-      <calc-solution/>
-    </div>
-    <div>
+  <div>
+    <div class="parallax"></div>
+    <div class="topnav" id="myTopnav">
+      <a href="/">MARKETPLACE</a>
+      <a href=/selection>ПОДБОР</a>
+      <a href="instruction">ИНСТРУКЦИЯ</a>
+      <a href="http://solector.tilda.ws/" target="_blank">О НАС</a>
     </div>
   </div>
 </template>
 
-
 <script>
-import CalcSolution from '@/components/Calculator'
-
 export default {
-  name: 'App',
-  components: {
-    CalcSolution,
-  }
+name: "top-menu"
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{
+  margin: 0;
 }
+
 
 * {
   margin: 0;
@@ -70,35 +63,14 @@ nav {
   border-bottom: 2px solid #808080;
 }
 
-.topnav .icon {
-  display: none;
-}
-
-.topnav .selected {
-  border-bottom: 2px solid #000;
-}
-
 @media screen and (max-width: 768px) {
   .topnav a:not(:first-child) {
     display: none;
   }
 
-  .topnav a.icon {
-    float: right;
-    margin-top: -17px;
-    display: block;
-    color: black;
-  }
-
   nav {
     width: 100px;
     height: 100px;
-  }
-
-  .topnav.responsive a.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
   }
 
   .topnav.responsive a {
@@ -125,5 +97,4 @@ td {
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 </style>

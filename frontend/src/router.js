@@ -16,8 +16,12 @@ export default new Router({
             component: () => import('./routes/selection.vue')
         },
         {
-            path: '/test',
-            component: () => import('./components/Calc_forms/form-response')
+            path: '/feedback',
+            component: () => import('./components/Fill/GoogleForm')
+        },
+        {
+            path: "*",
+            component: () => import('./components/NFerr'),
         }
     ]
 })

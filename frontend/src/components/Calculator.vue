@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Form from '@/components/Calc-for-device'
+  import Form from '@/components/Calc_forms/Calc-for-device'
   export default {
     components:{
       Form,
