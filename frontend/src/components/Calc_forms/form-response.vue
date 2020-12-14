@@ -25,7 +25,7 @@
               <td>{{ response_data['company'] }}</td>
             </tr>
             <tr>
-              <td>Колличество панелей:</td>
+              <td>Количество панелей:</td>
               <td>{{ response_data['kol'] }}</td>
             </tr>
             <tr>

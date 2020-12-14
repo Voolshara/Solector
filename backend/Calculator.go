@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
@@ -93,9 +94,6 @@ func search(abs float64, ins []float64) (string, []float64, int64, int64, float6
 		err = rows.Scan(&db_id, &db_name, &db_cost, &db_power, &db_efficiency, &img_link, &company, &panel_link)
 		coef = (db_power / 1000) * (db_efficiency / 100)
 		powerPanel := min * coef
-		fmt.Println(abs)
-		fmt.Println(powerPanel, db_name)
-		fmt.Println("________________________________")
 		kol := cleverInt(abs / powerPanel)
 		cost := kol * db_cost
 		if err != nil {
@@ -183,100 +181,112 @@ func minInsolation(arr []float64) float64 {
 	return min
 }
 
+func cleverFloat(s string, bitSize int) (float64, error) {
+	if s == ""{
+		return 0.00, errors.New("err parsing ''")
+	} else {
+		va, err := strconv.ParseFloat(s, bitSize)
+		if err != nil{
+			return 0.00, err
+		}
+		return va, err
+	}
+}
+
 func count(data map[string]string) float64 {
-	cookerKol, err := strconv.ParseFloat(data["cooker_kol"], 64)
+	cookerKol, err := cleverFloat(data["cooker_kol"], 64)
 	if err != nil {
 		log.Fatal("cookerKol Err", err)
 	}
-	cookerWt, err := strconv.ParseFloat(data["cooker_wt"], 64)
+	cookerWt, err := cleverFloat(data["cooker_wt"], 64)
 	if err != nil {
 		log.Fatal("cookerWt Err", err)
 	}
-	cookerHour, err := strconv.ParseFloat(data["cooker_hour"], 64)
+	cookerHour, err := cleverFloat(data["cooker_hour"], 64)
 	if err != nil {
 		log.Fatal("cookerHour Err", err)
 	}
-	fridgeKol, err := strconv.ParseFloat(data["fridge_kol"], 64)
+	fridgeKol, err := cleverFloat(data["fridge_kol"], 64)
 	if err != nil {
 		log.Fatal("fridgeKol Err", err)
 	}
-	fridgeWt, err := strconv.ParseFloat(data["fridge_wt"], 64)
+	fridgeWt, err := cleverFloat(data["fridge_wt"], 64)
 	if err != nil {
 		log.Fatal("fridgeWt Err", err)
 	}
-	fridgeHour, err := strconv.ParseFloat(data["fridge_hour"], 64)
+	fridgeHour, err := cleverFloat(data["fridge_hour"], 64)
 	if err != nil {
 		log.Fatal("fridgeHour Err", err)
 	}
-	heaterKol, err := strconv.ParseFloat(data["heater_kol"], 64)
+	heaterKol, err := cleverFloat(data["heater_kol"], 64)
 	if err != nil {
 		log.Fatal("heaterKol Err", err)
 	}
-	heaterWt, err := strconv.ParseFloat(data["heater_wt"], 64)
+	heaterWt, err := cleverFloat(data["heater_wt"], 64)
 	if err != nil {
 		log.Fatal("heaterWt Err", err)
 	}
-	heaterHour, err := strconv.ParseFloat(data["heater_hour"], 64)
+	heaterHour, err := cleverFloat(data["heater_hour"], 64)
 	if err != nil {
 		log.Fatal("heaterHour Err", err)
 	}
-	kettleKol, err := strconv.ParseFloat(data["kettle_kol"], 64)
+	kettleKol, err := cleverFloat(data["kettle_kol"], 64)
 	if err != nil {
 		log.Fatal("kettleKol Err", err)
 	}
-	kettleWt, err := strconv.ParseFloat(data["kettle_wt"], 64)
+	kettleWt, err := cleverFloat(data["kettle_wt"], 64)
 	if err != nil {
 		log.Fatal("kettleWt Err", err)
 	}
-	kettleHour, err := strconv.ParseFloat(data["kettle_hour"], 64)
+	kettleHour, err := cleverFloat(data["kettle_hour"], 64)
 	if err != nil {
 		log.Fatal("kettleHour Err", err)
 	}
-	laptopKol, err := strconv.ParseFloat(data["laptop_kol"], 64)
+	laptopKol, err := cleverFloat(data["laptop_kol"], 64)
 	if err != nil {
 		log.Fatal("laptopKol Err", err)
 	}
-	laptopWt, err := strconv.ParseFloat(data["laptop_wt"], 64)
+	laptopWt, err := cleverFloat(data["laptop_wt"], 64)
 	if err != nil {
 		log.Fatal("laptopWt Err", err)
 	}
-	laptopHour, err := strconv.ParseFloat(data["laptop_hour"], 64)
+	laptopHour, err := cleverFloat(data["laptop_hour"], 64)
 	if err != nil {
 		log.Fatal("laptopHour Err", err)
 	}
-	ledKol, err := strconv.ParseFloat(data["led_kol"], 64)
+	ledKol, err := cleverFloat(data["led_kol"], 64)
 	if err != nil {
 		log.Fatal("ledKol Err", err)
 	}
-	ledWt, err := strconv.ParseFloat(data["led_wt"], 64)
+	ledWt, err := cleverFloat(data["led_wt"], 64)
 	if err != nil {
 		log.Fatal("ledWt Err", err)
 	}
-	ledHour, err := strconv.ParseFloat(data["led_hour"], 64)
+	ledHour, err := cleverFloat(data["led_hour"], 64)
 	if err != nil {
 		log.Fatal("ledHour Err", err)
 	}
-	tvKol, err := strconv.ParseFloat(data["tv_kol"], 64)
+	tvKol, err := cleverFloat(data["tv_kol"], 64)
 	if err != nil {
 		log.Fatal("tvKol Err", err)
 	}
-	tvWt, err := strconv.ParseFloat(data["tv_wt"], 64)
+	tvWt, err := cleverFloat(data["tv_wt"], 64)
 	if err != nil {
 		log.Fatal("tvWt Err", err)
 	}
-	tvHour, err := strconv.ParseFloat(data["tv_hour"], 64)
+	tvHour, err := cleverFloat(data["tv_hour"], 64)
 	if err != nil {
 		log.Fatal("tvHour Err", err)
 	}
-	washingKol, err := strconv.ParseFloat(data["washing_kol"], 64)
+	washingKol, err := cleverFloat(data["washing_kol"], 64)
 	if err != nil {
 		log.Fatal("washingKol Err", err)
 	}
-	washingWt, err := strconv.ParseFloat(data["washing_wt"], 64)
+	washingWt, err := cleverFloat(data["washing_wt"], 64)
 	if err != nil {
 		log.Fatal("washingWt Err", err)
 	}
-	washingHour, err := strconv.ParseFloat(data["washing_hour"], 64)
+	washingHour, err := cleverFloat(data["washing_hour"], 64)
 	if err != nil {
 		log.Fatal("washingHour Err", err)
 	}

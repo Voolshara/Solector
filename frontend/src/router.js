@@ -8,7 +8,7 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path:'/',
+            path: '/',
             component: Home
         },
         {
@@ -22,6 +22,6 @@ export default new Router({
         {
             path: "*",
             component: () => import('./components/NFerr'),
-        }
+        },
     ]
 })

@@ -13,51 +13,51 @@
         <br>
         <tr>
           <td>Электрочайник</td>
-          <td><input type="number" v-model="form.kettle_kol"> Шт.</td>
-          <td><input type="number" v-model="form.kettle_wt"> Вт</td>
-          <td><input type="number" v-model="form.kettle_hour"> часов</td>
+          <td><input type="number" min="0" pattern="^[0-9]+$" v-model="form.kettle_kol"> Шт.</td>
+          <td><input type="number" min="0" pattern="^[0-9]+$" v-model="form.kettle_wt"> Вт</td>
+          <td><input type="number" min="0" pattern="^[0-9]+$" v-model="form.kettle_hour"> часов</td>
         </tr>
         <tr>
           <td>Холодильник</td>
-          <td><input type="number" v-model="form.fridge_kol"> Шт.</td>
-          <td><input type="number" v-model="form.fridge_wt"> Вт</td>
-          <td><input type="number" v-model="form.fridge_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.fridge_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.fridge_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.fridge_hour"> часов</td>
         </tr>
         <tr>
           <td>Лампы</td>
-          <td><input type="number" v-model="form.led_kol"> Шт.</td>
-          <td><input type="number" v-model="form.led_wt"> Вт</td>
-          <td><input type="number" v-model="form.led_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.led_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.led_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.led_hour"> часов</td>
         </tr>
         <tr>
           <td>Мультиварка</td>
-          <td><input type="number" v-model="form.cooker_kol"> Шт.</td>
-          <td><input type="number" v-model="form.cooker_wt"> Вт</td>
-          <td><input type="number" v-model="form.cooker_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.cooker_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.cooker_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.cooker_hour"> часов</td>
         </tr>
         <tr>
           <td>Обогреватель</td>
-          <td><input type="number" v-model="form.heater_kol"> Шт.</td>
-          <td><input type="number" v-model="form.heater_wt"> Вт</td>
-          <td><input type="number" v-model="form.heater_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.heater_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.heater_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.heater_hour"> часов</td>
         </tr>
         <tr>
           <td>Стиральная машина</td>
-          <td><input type="number" v-model="form.washing_kol"> Шт.</td>
-          <td><input type="number" v-model="form.washing_wt"> Вт</td>
-          <td><input type="number" v-model="form.washing_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.washing_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.washing_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.washing_hour"> часов</td>
         </tr>
         <tr>
           <td>Телевизор</td>
-          <td><input type="number" v-model="form.tv_kol"> Шт.</td>
-          <td><input type="number" v-model="form.tv_wt"> Вт</td>
-          <td><input type="number" v-model="form.tv_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.tv_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.tv_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.tv_hour"> часов</td>
         </tr>
         <tr>
           <td>Ноутбук</td>
-          <td><input type="number" v-model="form.laptop_kol"> Шт.</td>
-          <td><input type="number" v-model="form.laptop_wt"> Вт</td>
-          <td><input type="number" v-model="form.laptop_hour"> часов</td>
+          <td><input type="number" min="0" v-model="form.laptop_kol"> Шт.</td>
+          <td><input type="number" min="0" v-model="form.laptop_wt"> Вт</td>
+          <td><input type="number" min="0" v-model="form.laptop_hour"> часов</td>
         </tr>
       </table>
       <br>
@@ -79,7 +79,7 @@
       <h2>На данный момент у нас нет информации о инсоляции в этом регионе</h2>
     </div>
     <div v-else-if="this.response_data['power_arr'].length > 1">
-      <response v-bind:response_data="response_data"  class="response"/>
+      <response v-bind:response_data="response_data" class="response"/>
     </div>
     <div v-else-if="request_flag">
       <h2>Считаем...</h2>
@@ -108,40 +108,124 @@ export default {
   },
   methods: {
     async jsonSubmit() {
-      if (document.getElementById("mark_coord").value.length === 0) {
-        alert("Установите метку на карте")
-      } else {
-        this.request_flag = 1
-        this.response_data = {
-          'power_arr': 0,
-        }
-        this.form.coords = document.getElementById("mark_coord").value
-        let js_form = {
-          name: "dev-calc",
-          data: this.form
-        }
-        await fetch(this.apiURL, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          redirect: 'follow', // manual, *follow, error
-          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          body: JSON.stringify(js_form) // body data type must match "Content-Type" header
-        })
-            .then(response => response.json())
-            .then(data => {
-              this.response_data = data
-              console.log('Success:', data);
+      switch ('') {
+
+        case this.form.cooker_hour:
+          alert("Неправильное значение поле времени мультиварки")
+              break
+        case this.form.cooker_wt:
+          alert("Неправильное значение поле мощности мультиварки")
+          break
+        case this.form.cooker_kol:
+          alert("Неправильное значение поле колличества мультиварки")
+          break
+
+        case this.form.fridge_hour:
+          alert("Неправильное значение поле времени холодильника")
+          break
+        case this.form.fridge_wt:
+          alert("Неправильное значение поле мощности холодильника")
+          break
+        case this.form.fridge_kol:
+          alert("Неправильное значение поле колличества холодильника")
+          break
+
+        case this.form.tv_hour:
+          alert("Неправильное значение поле времени телевизора")
+          break
+        case this.form.tv_wt:
+          alert("Неправильное значение поле мощности телевизора")
+          break
+        case this.form.tv_kol:
+          alert("Неправильное значение поле колличества телевизора")
+          break
+
+        case this.form.kettle_hour:
+          alert("Неправильное значение поле времени электрочайника")
+          break
+        case this.form.kettle_wt:
+          alert("Неправильное значение поле мощности электрочайника")
+          break
+        case this.form.kettle_kol:
+          alert("Неправильное значение поле колличества электрочайника")
+          break
+
+        case this.form.laptop_hour:
+          alert("Неправильное значение поле времени ноутбука")
+          break
+        case this.form.laptop_wt:
+          alert("Неправильное значение поле мощности ноутбука")
+          break
+        case this.form.laptop_kol:
+          alert("Неправильное значение поле колличества ноутбука")
+          break
+
+        case this.form.led_hour:
+          alert("Неправильное значение поле времени ламп")
+          break
+        case this.form.led_wt:
+          alert("Неправильное значение поле мощности ламп")
+          break
+        case this.form.led_kol:
+          alert("Неправильное значение поле колличества ламп")
+          break
+
+        case this.form.heater_hour:
+          alert("Неправильное значение поле времени обогревателя")
+          break
+        case this.form.heater_wt:
+          alert("Неправильное значение поле мощности обогревателя")
+          break
+        case this.form.heater_kol:
+          alert("Неправильное значение поле колличества обогревателя")
+          break
+
+        case this.form.washing_hour:
+          alert("Неправильное значение поле времени стиральной машины")
+          break
+        case this.form.washing_wt:
+          alert("Неправильное значение поле мощности стиральной машины")
+          break
+        case this.form.washing_kol:
+          alert("Неправильное значение поле колличества стиральной машины")
+          break
+
+        default:
+          if (document.getElementById("mark_coord").value.length === 0) {
+            alert("Установите метку на карте")
+          } else {
+            this.request_flag = 1
+            this.response_data = {
+              'power_arr': 0,
+            }
+            this.form.coords = document.getElementById("mark_coord").value
+            let js_form = {
+              name: "dev-calc",
+              data: this.form
+            }
+            await fetch(this.apiURL, {
+              method: 'POST', // *GET, POST, PUT, DELETE, etc.
+              mode: 'cors', // no-cors, *cors, same-origin
+              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              credentials: 'same-origin', // include, *same-origin, omit
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              redirect: 'follow', // manual, *follow, error
+              referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+              body: JSON.stringify(js_form) // body data type must match "Content-Type" header
             })
-            .catch((error) => {
-              this.response_data = error
-              console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                  this.response_data = data
+                  console.log('Success:', data);
+                })
+                .catch((error) => {
+                  this.response_data = error
+                  console.error('Error:', error);
+                });
+          }
       }
     }
   },
@@ -178,7 +262,8 @@ export default {
         laptop_hour: '10',
         coords: "",
       },
-      "apiURL": "https://engine.solector.ru",
+      //"apiURL": "https://engine.solector.ru",
+      "apiURL": "http://192.168.1.82:4325/",
       "form_head": [
         "Электроприбор",
         "Количество",
@@ -263,7 +348,7 @@ form {
   margin-right: auto;
 }
 
-.response{
+.response {
   margin-right: auto;
   margin-left: auto;
 }
@@ -289,10 +374,10 @@ form {
   font-weight: 700;
   color: #313133;
   background: #4FD1C5;
-  background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
   border: none;
   border-radius: 1000px;
-  box-shadow: 12px 12px 24px rgba(79,209,197,.64);
+  box-shadow: 12px 12px 24px rgba(79, 209, 197, .64);
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
   outline: none;
@@ -306,7 +391,7 @@ button::before {
   min-width: calc(300px + 12px);
   min-height: calc(60px + 12px);
   border: 6px solid #00FFCB;
-  box-shadow: 0 0 60px rgba(0,255,203,.64);
+  box-shadow: 0 0 60px rgba(0, 255, 203, .64);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -326,7 +411,8 @@ button:hover::before, button:focus::before {
 
 button::after {
   content: '';
-  width: 30px; height: 30px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   border: 6px solid #00FFCB;
   position: absolute;
