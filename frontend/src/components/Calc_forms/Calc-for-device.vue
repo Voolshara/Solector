@@ -262,8 +262,8 @@ export default {
         laptop_hour: '10',
         coords: "",
       },
-      //"apiURL": "https://engine.solector.ru",
-      "apiURL": "http://192.168.1.82:4325/",
+      "apiURL": "https://engine.solector.ru",
+      //"apiURL": "http://192.168.1.82:4325/",
       "form_head": [
         "Электроприбор",
         "Количество",

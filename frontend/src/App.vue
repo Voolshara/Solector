@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <link rel="shortcut icon" href="public/favicon.ico">
     <Menu/>
     <router-view/>
     <Footer/>
