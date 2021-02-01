@@ -14,6 +14,19 @@ import CalcSolution from '@/components/Calculator'
 
 export default {
   name: 'App',
+  metaInfo: {
+    title: 'Calculator',
+    titleTemplate: '%s | Device',
+    meta: [
+      {
+        name: 'description',
+        content: 'Solector - это интернет-сервис, где вы можете быстро подобрать комплект солнечных панелей, который будет наиболее выгоден вам'
+      },
+    ],
+    link: [
+      { rel: 'canonical', href: '/selection' }
+    ]
+  },
   components: {
     CalcSolution,
   }

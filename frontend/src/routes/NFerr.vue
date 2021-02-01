@@ -11,12 +11,21 @@
 
 <script>
 export default {
-name: "NFerr"
+  metaInfo: {
+    titleTemplate: '%s | 404',
+    meta: [
+      {
+        name: 'description',
+        content: 'Похоже, вы ошиблись адресом, проверьте ссылку'
+      },
+    ]
+  },
+  name: "NFerr"
 }
 </script>
 
 <style>
-.notF{
+.notF {
   width: available;
   text-align: center;
   height: 100%;

@@ -10,6 +10,18 @@
 
 <script>
 export default {
+  metaInfo: {
+    titleTemplate: '%s | Feed Back',
+    meta: [
+      {
+        name: 'description',
+        content: 'Это форма обратной связи. Если вы хотите улучшить наш продукт, или у вас есть идеи для его развития, ответьте на вопросы'
+      },
+    ],
+    link: [
+      { rel: 'canonical', href: '/feedback' }
+    ]
+  },
   name: "GoogleForm"
 }
 </script>
